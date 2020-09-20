@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +28,14 @@ public class StudentController {
 	
 	
 	@PostMapping("/students")
-	public void save(@RequestBody Student student) {
-		if(Validation.RutValidation(student.getRut()))		
+	public ResponseEntity save(@RequestBody Student student) {
+		if(Validation.RutValidation(student.getRut()) && (student.getAge() > 18)) {
 			studentDAO.save(student);
-		
+			return new ResponseEntity(HttpStatus.CREATED);
+		}
+		else
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			
 	}
 	
 	@GetMapping("/students")

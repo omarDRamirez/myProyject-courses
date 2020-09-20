@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +27,9 @@ public class CourseController {
 	
 	
 	@PostMapping("/courses")
-	public void save(@RequestBody Course course) {
+	public ResponseEntity save(@RequestBody Course course) {
 		courseDAO.save(course);
+		return new ResponseEntity(HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/courses")
@@ -40,8 +43,9 @@ public class CourseController {
 	}
 	
 	@DeleteMapping("/courses/{code}")
-	public void delete(@PathVariable("code") String code) {
+	public ResponseEntity delete(@PathVariable("code") String code) {
 		courseDAO.deleteById(code);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/courses")
