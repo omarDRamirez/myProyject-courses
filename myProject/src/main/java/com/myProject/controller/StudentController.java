@@ -49,8 +49,9 @@ public class StudentController {
 	}
 	
 	@DeleteMapping("/students/{rut}")
-	public void delete(@PathVariable("rut") String rut) {
+	public ResponseEntity delete(@PathVariable("rut") String rut) {
 		studentDAO.deleteById(rut);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/students")
